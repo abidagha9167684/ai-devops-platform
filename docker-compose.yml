@@ -1,7 +1,6 @@
 services:
   app:
-    build:
-      context: ./app
+    image: abidagha172/ai-devops-platform:latest
     container_name: ai-devops-app
     ports:
       - "5000:5000"
