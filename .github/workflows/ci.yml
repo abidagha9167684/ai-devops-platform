@@ -33,5 +33,20 @@ jobs:
         working-directory: ./app
         run: python -m pytest -v
 
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+           username: ${{ secrets.DOCKERHUB_USERNAME }}
+           password: ${{ secrets.DOCKERHUB_TOKEN }}
+
       - name: Build Docker image
-        run: docker build -t ai-devops-platform:${{ github.sha }} ./app
+        run: |
+          docker build \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/ai-devops-platform:latest \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/ai-devops-platform:${{ github.sha }} \
+            ./app
+
+      - name: Push Docker images
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ai-devops-platform:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/ai-devops-platform:${{ github.sha }}
