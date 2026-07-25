@@ -20,6 +20,21 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: infrastructure
+        run: terraform init -backend=false
+
+      - name: Terraform Format Check
+        working-directory: infrastructure
+        run: terraform fmt -check
+
+      - name: Terraform Validate
+        working-directory: infrastructure
+        run: terraform validate
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
