@@ -1,0 +1,10 @@
+replicaCount: 3
+
+image:
+  repository: abidagha172/ai-devops-platform
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: NodePort
+  port: 5000
