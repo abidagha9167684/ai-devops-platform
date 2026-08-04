@@ -1,0 +1,15 @@
+minikube service ingress-nginx-controller -n ingress-nginx --url
+
+
+minikube start
+
+helm lint .\helm\ai-devops-platform
+
+helm template ai-devops-platform .\helm\ai-devops-platform `
+  -f .\helm\ai-devops-platform\values.yaml `
+  -n ai-devops
+
+
+helm upgrade ai-devops-platform .\helm\ai-devops-platform `
+  -f .\helm\ai-devops-platform\values.yaml `
+  -n ai-devops
