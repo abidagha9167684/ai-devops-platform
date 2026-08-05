@@ -4,7 +4,12 @@ metadata:
   name: {{ include "ai-devops-platform.fullname" . }}
   labels:
     {{- include "ai-devops-platform.labels" . | nindent 4 }}
+  annotations:
+    app.kubernetes.io/managed-by: Helm
 spec:
+  progressDeadlineSeconds: 600
+  revisionHistoryLimit: 5
+
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -54,6 +59,10 @@ spec:
             - name: http
               containerPort: {{ .Values.service.port }}
               protocol: TCP
+          {{- with .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- toYaml . | nindent 12 }}
